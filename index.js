@@ -2,6 +2,11 @@ const express = require("express");
 var axios = require("axios");
 
 const app = express();
+// For parsing application/json
+app.use(express.json());
+
+// For parsing application/x-www-form-urlencoded
+app.use(express.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
   console.log("Just got a request!");
   res.send("Yo! Hello");
