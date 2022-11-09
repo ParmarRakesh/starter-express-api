@@ -11,7 +11,7 @@ app.post("/product", async (request, response) => {
   const json = {
     key: "hello",
   };
-  console.log(request.body);
+  console.log(request);
   console.log("test");
   const id = request.body.id;
 

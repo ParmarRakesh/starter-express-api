@@ -18,7 +18,7 @@ app.post("/product", function _callee2(request, response) {
           json = {
             key: "hello"
           };
-          console.log(request.body);
+          console.log(request);
           console.log("test");
           id = request.body.id;
           config = {
