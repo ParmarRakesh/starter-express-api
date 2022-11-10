@@ -29,7 +29,7 @@ async function get_stock(product_id) {
     axios(config)
       .then(async function (res) {
         console.log(
-          `ID:Current Quantity: ${product_id}:${res.data.stock_quantity}`
+          `ID:${product_id}, Current Quantity:${res.data.stock_quantity}`
         );
         resolve(res.data.stock_quantity);
       })
@@ -128,7 +128,7 @@ async function decrease_stock(product_id) {
       sku_id: ${product_id},
       decreased_stock: ${response.data.stock_quantity},
      `);
-      return response.data.stock_quantity;
+      return;
     })
     .catch(function (error) {
       console.log(error);
@@ -161,7 +161,7 @@ async function increase_stock(product_id) {
       sku_id: ${product_id},
       increased_stock: ${response.data.stock_quantity},
      `);
-      return response.data.stock_quantity;
+      return;
     })
     .catch(function (error) {
       console.log(error);
@@ -175,12 +175,12 @@ app.post("/increase", (request, response) => {
   console.log("test");
   const id = request.body.id;
   // const decreased_stock = await decrease_stock(current_stock, id);
-  const increased_stock = increase_stock(id);
+  increase_stock(id);
   // response.send({
   //   sku_id: id,
   //   increased_stock: increased_stock,
   // });
-  response.status(200);
+  response.status(200).json({ status: "success" });
 
   // response.send(json);
 });
@@ -191,12 +191,12 @@ app.post("/decrease", (request, response) => {
   console.log(request.body);
   console.log("test");
   const id = request.body.id;
-  const decreased_stock = decrease_stock(id);
+  decrease_stock(id);
   console.log(`Call to decrease for id ${id}`);
   //const increased_stock = await increase_stock(current_stock, id);
   //console.log("increased stock:", increased_stock);
 
-  response.status(200);
+  response.status(200).json({ status: "success" });
   // response.send(json);
 });
 

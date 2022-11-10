@@ -36,7 +36,7 @@ function get_stock(product_id) {
                 while (1) {
                   switch (_context.prev = _context.next) {
                     case 0:
-                      console.log("ID:Current Quantity: ".concat(product_id, ":").concat(res.data.stock_quantity));
+                      console.log("ID:".concat(product_id, ", Current Quantity:").concat(res.data.stock_quantity));
                       resolve(res.data.stock_quantity);
 
                     case 2:
@@ -191,7 +191,7 @@ function decrease_stock(product_id) {
           };
           axios(config).then(function (response) {
             console.log("\n      sku_id: ".concat(product_id, ",\n      decreased_stock: ").concat(response.data.stock_quantity, ",\n     "));
-            return response.data.stock_quantity;
+            return;
           })["catch"](function (error) {
             console.log(error);
           });
@@ -231,7 +231,7 @@ function increase_stock(product_id) {
           };
           axios(config).then(function (response) {
             console.log("\n      sku_id: ".concat(product_id, ",\n      increased_stock: ").concat(response.data.stock_quantity, ",\n     "));
-            return response.data.stock_quantity;
+            return;
           })["catch"](function (error) {
             console.log(error);
           });
@@ -252,12 +252,14 @@ app.post("/increase", function (request, response) {
   console.log("test");
   var id = request.body.id; // const decreased_stock = await decrease_stock(current_stock, id);
 
-  var increased_stock = increase_stock(id); // response.send({
+  increase_stock(id); // response.send({
   //   sku_id: id,
   //   increased_stock: increased_stock,
   // });
 
-  return response.status(200); // response.send(json);
+  response.status(200).json({
+    status: "success"
+  }); // response.send(json);
 });
 app.post("/decrease", function (request, response) {
   var json = {
@@ -266,11 +268,13 @@ app.post("/decrease", function (request, response) {
   console.log(request.body);
   console.log("test");
   var id = request.body.id;
-  var decreased_stock = decrease_stock(id);
+  decrease_stock(id);
   console.log("Call to decrease for id ".concat(id)); //const increased_stock = await increase_stock(current_stock, id);
   //console.log("increased stock:", increased_stock);
 
-  return response.status(200); // response.send(json);
+  response.status(200).json({
+    status: "success"
+  }); // response.send(json);
 });
 app.listen(port, function () {
   console.log("Listening on port ".concat(port));
