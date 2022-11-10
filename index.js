@@ -130,8 +130,14 @@ app.post("/decrease", async (request, response) => {
   const current_stock = await get_stock(id);
   console.log("current Stock", current_stock);
   const decreased_stock = await decrease_stock(current_stock, id);
+  console.log(`Call to decrease for id ${id}`);
   //const increased_stock = await increase_stock(current_stock, id);
   //console.log("increased stock:", increased_stock);
+  console.log(`
+    sku_id: ${id},
+    current_stock: ${current_stock},
+    decreased_stock: ${decreased_stock},
+  `);
   response.send({
     sku_id: id,
     current_stock: current_stock,

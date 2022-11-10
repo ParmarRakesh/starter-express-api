@@ -192,15 +192,17 @@ app.post("/decrease", function _callee3(request, response) {
 
         case 10:
           decreased_stock = _context6.sent;
-          //const increased_stock = await increase_stock(current_stock, id);
+          console.log("Call to decrease for id ".concat(id)); //const increased_stock = await increase_stock(current_stock, id);
           //console.log("increased stock:", increased_stock);
+
+          console.log("\n    sku_id: ".concat(id, ",\n    current_stock: ").concat(current_stock, ",\n    decreased_stock: ").concat(decreased_stock, ",\n  "));
           response.send({
             sku_id: id,
             current_stock: current_stock,
             decreased_stock: decreased_stock
           }); // response.send(json);
 
-        case 12:
+        case 14:
         case "end":
           return _context6.stop();
       }
