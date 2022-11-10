@@ -190,7 +190,7 @@ function decrease_stock(product_id) {
             data: data
           };
           axios(config).then(function (response) {
-            //console.log(response.data);
+            console.log("\n      sku_id: ".concat(product_id, ",\n      decreased_stock: ").concat(response.data.stock_quantity, ",\n     "));
             return response.data.stock_quantity;
           })["catch"](function (error) {
             console.log(error);
@@ -230,7 +230,7 @@ function increase_stock(product_id) {
             data: data
           };
           axios(config).then(function (response) {
-            console.log(response.data.stock_quantity);
+            console.log("\n      sku_id: ".concat(product_id, ",\n      increased_stock: ").concat(response.data.stock_quantity, ",\n     "));
             return response.data.stock_quantity;
           })["catch"](function (error) {
             console.log(error);
@@ -244,67 +244,33 @@ function increase_stock(product_id) {
   });
 }
 
-app.post("/increase", function _callee4(request, response) {
-  var json, id, increased_stock;
-  return regeneratorRuntime.async(function _callee4$(_context9) {
-    while (1) {
-      switch (_context9.prev = _context9.next) {
-        case 0:
-          json = {
-            key: "hello"
-          };
-          console.log(request.body);
-          console.log("test");
-          id = request.body.id; // const decreased_stock = await decrease_stock(current_stock, id);
+app.post("/increase", function (request, response) {
+  var json = {
+    key: "hello"
+  };
+  console.log(request.body);
+  console.log("test");
+  var id = request.body.id; // const decreased_stock = await decrease_stock(current_stock, id);
 
-          _context9.next = 6;
-          return regeneratorRuntime.awrap(increase_stock_promise(id));
+  var increased_stock = increase_stock(id); // response.send({
+  //   sku_id: id,
+  //   increased_stock: increased_stock,
+  // });
 
-        case 6:
-          increased_stock = _context9.sent;
-          console.log("\n    sku_id: ".concat(id, ",\n    increased_stock: ").concat(increased_stock, ",\n  ")); // response.send({
-          //   sku_id: id,
-          //   increased_stock: increased_stock,
-          // });
-
-          return _context9.abrupt("return", response.status(200));
-
-        case 9:
-        case "end":
-          return _context9.stop();
-      }
-    }
-  });
+  return response.status(200); // response.send(json);
 });
-app.post("/decrease", function _callee5(request, response) {
-  var json, id, decreased_stock;
-  return regeneratorRuntime.async(function _callee5$(_context10) {
-    while (1) {
-      switch (_context10.prev = _context10.next) {
-        case 0:
-          json = {
-            key: "hello"
-          };
-          console.log(request.body);
-          console.log("test");
-          id = request.body.id;
-          _context10.next = 6;
-          return regeneratorRuntime.awrap(decrease_stock_promise(id));
+app.post("/decrease", function (request, response) {
+  var json = {
+    key: "hello"
+  };
+  console.log(request.body);
+  console.log("test");
+  var id = request.body.id;
+  var decreased_stock = decrease_stock(id);
+  console.log("Call to decrease for id ".concat(id)); //const increased_stock = await increase_stock(current_stock, id);
+  //console.log("increased stock:", increased_stock);
 
-        case 6:
-          decreased_stock = _context10.sent;
-          console.log("Call to decrease for id ".concat(id)); //const increased_stock = await increase_stock(current_stock, id);
-          //console.log("increased stock:", increased_stock);
-
-          console.log("\n    sku_id: ".concat(id, ",\n    decreased_stock: ").concat(decreased_stock, ",\n  "));
-          return _context10.abrupt("return", response.status(200));
-
-        case 10:
-        case "end":
-          return _context10.stop();
-      }
-    }
-  });
+  return response.status(200); // response.send(json);
 });
 app.listen(port, function () {
   console.log("Listening on port ".concat(port));

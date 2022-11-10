@@ -124,7 +124,10 @@ async function decrease_stock(product_id) {
 
   axios(config)
     .then(function (response) {
-      //console.log(response.data);
+      console.log(`
+      sku_id: ${product_id},
+      decreased_stock: ${response.data.stock_quantity},
+     `);
       return response.data.stock_quantity;
     })
     .catch(function (error) {
@@ -154,14 +157,17 @@ async function increase_stock(product_id) {
 
   axios(config)
     .then(function (response) {
-      console.log(response.data.stock_quantity);
+      console.log(`
+      sku_id: ${product_id},
+      increased_stock: ${response.data.stock_quantity},
+     `);
       return response.data.stock_quantity;
     })
     .catch(function (error) {
       console.log(error);
     });
 }
-app.post("/increase", async (request, response) => {
+app.post("/increase", (request, response) => {
   const json = {
     key: "hello",
   };
@@ -169,11 +175,7 @@ app.post("/increase", async (request, response) => {
   console.log("test");
   const id = request.body.id;
   // const decreased_stock = await decrease_stock(current_stock, id);
-  const increased_stock = await increase_stock_promise(id);
-  console.log(`
-    sku_id: ${id},
-    increased_stock: ${increased_stock},
-  `);
+  const increased_stock = increase_stock(id);
   // response.send({
   //   sku_id: id,
   //   increased_stock: increased_stock,
@@ -182,21 +184,18 @@ app.post("/increase", async (request, response) => {
 
   // response.send(json);
 });
-app.post("/decrease", async (request, response) => {
+app.post("/decrease", (request, response) => {
   const json = {
     key: "hello",
   };
   console.log(request.body);
   console.log("test");
   const id = request.body.id;
-  const decreased_stock = await decrease_stock_promise(id);
+  const decreased_stock = decrease_stock(id);
   console.log(`Call to decrease for id ${id}`);
   //const increased_stock = await increase_stock(current_stock, id);
   //console.log("increased stock:", increased_stock);
-  console.log(`
-    sku_id: ${id},
-    decreased_stock: ${decreased_stock},
-  `);
+
   return response.status(200);
   // response.send(json);
 });
