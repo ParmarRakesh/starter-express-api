@@ -37,11 +37,12 @@ async function get_stock(product_id) {
   });
 }
 
-async function decrease_stock(stock, product_id) {
-  return new Promise((resolve, reject) => {
-    stock = stock - 1;
+async function decrease_stock(product_id) {
+  return new Promise(async (resolve, reject) => {
+    const current_stock = await get_stock(id);
+    current_stock = current_stock - 1;
     var data = JSON.stringify({
-      stock_quantity: stock,
+      stock_quantity: current_stock,
     });
 
     var config = {
@@ -68,12 +69,12 @@ async function decrease_stock(stock, product_id) {
   });
 }
 
-async function increase_stock(stock, product_id) {
-  return new Promise((resolve, reject) => {
-    let y = 0;
-    stock = stock + 1;
+async function increase_stock(product_id) {
+  return new Promise(async (resolve, reject) => {
+    const current_stock = await get_stock(id);
+    current_stock = current_stock + 1;
     var data = JSON.stringify({
-      stock_quantity: stock,
+      stock_quantity: current_stock,
     });
 
     var config = {
@@ -107,11 +108,13 @@ app.post("/increase", async (request, response) => {
   console.log(request.body);
   console.log("test");
   const id = request.body.id;
-  const current_stock = await get_stock(id);
-  console.log("current Stock", current_stock);
   // const decreased_stock = await decrease_stock(current_stock, id);
-  const increased_stock = await increase_stock(current_stock, id);
-  console.log("increased stock:", increased_stock);
+  const increased_stock = await increase_stock(id);
+  console.log(`
+    sku_id: ${id},
+    current_stock: ${current_stock},
+    increased_stock: ${increased_stock},
+  `);
   response.send({
     sku_id: id,
     current_stock: current_stock,
@@ -127,9 +130,7 @@ app.post("/decrease", async (request, response) => {
   console.log(request.body);
   console.log("test");
   const id = request.body.id;
-  const current_stock = await get_stock(id);
-  console.log("current Stock", current_stock);
-  const decreased_stock = await decrease_stock(current_stock, id);
+  const decreased_stock = await decrease_stock(id);
   console.log(`Call to decrease for id ${id}`);
   //const increased_stock = await increase_stock(current_stock, id);
   //console.log("increased stock:", increased_stock);
