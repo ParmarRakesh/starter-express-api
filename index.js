@@ -175,12 +175,12 @@ app.post("/increase", (request, response) => {
   console.log("test");
   const id = request.body.id;
   // const decreased_stock = await decrease_stock(current_stock, id);
-  const inc = increase_stock_promise(id);
+  const inc = increase_stock(id);
   // response.send({
   //   sku_id: id,
   //   increased_stock: increased_stock,
   // });
-  console.log(`id:${id} ,increased_stock: ${inc}`);
+  //console.log(`id:${id} ,increased_stock: ${inc}`);
   response.status(200).json({ status: "success", increased_stock: inc });
 
   // response.send(json);
@@ -192,11 +192,11 @@ app.post("/decrease", (request, response) => {
   console.log(request.body);
   console.log("test");
   const id = request.body.id;
-  const dec = decrease_stock_promise(id);
+  const dec = decrease_stock(id);
   console.log(`Call to decrease for id ${id}`);
   //const increased_stock = await increase_stock(current_stock, id);
   //console.log("increased stock:", increased_stock);
-  console.log(`id:${id} ,decreased_stock: ${dec}`);
+  //console.log(`id:${id} ,decreased_stock: ${dec}`);
 
   response.status(200).json({ status: "success", decreased_stock: dec });
   // response.send(json);
