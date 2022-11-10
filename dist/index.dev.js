@@ -258,7 +258,7 @@ app.post("/increase", function _callee4(request, response) {
           id = request.body.id; // const decreased_stock = await decrease_stock(current_stock, id);
 
           _context9.next = 6;
-          return regeneratorRuntime.awrap(increase_stock(id));
+          return regeneratorRuntime.awrap(increase_stock_promise(id));
 
         case 6:
           increased_stock = _context9.sent;
@@ -289,7 +289,7 @@ app.post("/decrease", function _callee5(request, response) {
           console.log("test");
           id = request.body.id;
           _context10.next = 6;
-          return regeneratorRuntime.awrap(decrease_stock(id));
+          return regeneratorRuntime.awrap(decrease_stock_promise(id));
 
         case 6:
           decreased_stock = _context10.sent;
