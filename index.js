@@ -180,7 +180,7 @@ app.post("/increase", (request, response) => {
   //   sku_id: id,
   //   increased_stock: increased_stock,
   // });
-  return response.status(200);
+  response.status(200);
 
   // response.send(json);
 });
@@ -196,7 +196,7 @@ app.post("/decrease", (request, response) => {
   //const increased_stock = await increase_stock(current_stock, id);
   //console.log("increased stock:", increased_stock);
 
-  return response.status(200);
+  response.status(200);
   // response.send(json);
 });
 
