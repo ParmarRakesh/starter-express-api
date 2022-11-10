@@ -1,7 +1,5 @@
 "use strict";
 
-function _readOnlyError(name) { throw new Error("\"" + name + "\" is read-only"); }
-
 var express = require("express");
 
 var axios = require("axios");
@@ -76,7 +74,7 @@ function decrease_stock(product_id) {
 
                   case 2:
                     current_stock = _context3.sent;
-                    current_stock = (_readOnlyError("current_stock"), current_stock - 1);
+                    current_stock = current_stock - 1;
                     data = JSON.stringify({
                       stock_quantity: current_stock
                     });
@@ -129,7 +127,7 @@ function increase_stock(product_id) {
 
                   case 2:
                     current_stock = _context5.sent;
-                    current_stock = (_readOnlyError("current_stock"), current_stock + 1);
+                    current_stock = current_stock + 1;
                     data = JSON.stringify({
                       stock_quantity: current_stock
                     });
