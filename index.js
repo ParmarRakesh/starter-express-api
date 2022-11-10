@@ -39,7 +39,7 @@ async function get_stock(product_id) {
 
 async function decrease_stock(product_id) {
   return new Promise(async (resolve, reject) => {
-    const current_stock = await get_stock(id);
+    const current_stock = await get_stock(product_id);
     current_stock = current_stock - 1;
     var data = JSON.stringify({
       stock_quantity: current_stock,
@@ -71,7 +71,7 @@ async function decrease_stock(product_id) {
 
 async function increase_stock(product_id) {
   return new Promise(async (resolve, reject) => {
-    const current_stock = await get_stock(id);
+    const current_stock = await get_stock(product_id);
     current_stock = current_stock + 1;
     var data = JSON.stringify({
       stock_quantity: current_stock,

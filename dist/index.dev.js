@@ -72,7 +72,7 @@ function decrease_stock(product_id) {
                 switch (_context3.prev = _context3.next) {
                   case 0:
                     _context3.next = 2;
-                    return regeneratorRuntime.awrap(get_stock(id));
+                    return regeneratorRuntime.awrap(get_stock(product_id));
 
                   case 2:
                     current_stock = _context3.sent;
@@ -125,7 +125,7 @@ function increase_stock(product_id) {
                 switch (_context5.prev = _context5.next) {
                   case 0:
                     _context5.next = 2;
-                    return regeneratorRuntime.awrap(get_stock(id));
+                    return regeneratorRuntime.awrap(get_stock(product_id));
 
                   case 2:
                     current_stock = _context5.sent;
