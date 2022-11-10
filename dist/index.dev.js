@@ -258,7 +258,7 @@ app.post("/increase", function _callee4(request, response) {
           id = request.body.id; // const decreased_stock = await decrease_stock(current_stock, id);
 
           _context9.next = 6;
-          return regeneratorRuntime.awrap(increase_stock(id));
+          return regeneratorRuntime.awrap(increase_stock_promise(id));
 
         case 6:
           inc = _context9.sent;
@@ -266,12 +266,13 @@ app.post("/increase", function _callee4(request, response) {
           //   sku_id: id,
           //   increased_stock: increased_stock,
           // });
+          console.log("id:".concat(id, " ,increased_stock: ").concat(inc));
           response.status(200).json({
             status: "success",
             increased_stock: inc
           }); // response.send(json);
 
-        case 8:
+        case 9:
         case "end":
           return _context9.stop();
       }
@@ -291,19 +292,20 @@ app.post("/decrease", function _callee5(request, response) {
           console.log("test");
           id = request.body.id;
           _context10.next = 6;
-          return regeneratorRuntime.awrap(decrease_stock(id));
+          return regeneratorRuntime.awrap(decrease_stock_promise(id));
 
         case 6:
           dec = _context10.sent;
           console.log("Call to decrease for id ".concat(id)); //const increased_stock = await increase_stock(current_stock, id);
           //console.log("increased stock:", increased_stock);
 
+          console.log("id:".concat(id, " ,increased_stock: ").concat(dec));
           response.status(200).json({
             status: "success",
             decreased_stock: dec
           }); // response.send(json);
 
-        case 9:
+        case 10:
         case "end":
           return _context10.stop();
       }
