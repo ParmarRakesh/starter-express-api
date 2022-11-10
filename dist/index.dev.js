@@ -187,7 +187,7 @@ app.post("/increase", function _callee4(request, response) {
           //   increased_stock: increased_stock,
           // });
 
-          return _context7.abrupt("return", request.status(200));
+          return _context7.abrupt("return", response.status(200));
 
         case 9:
         case "end":
@@ -217,7 +217,7 @@ app.post("/decrease", function _callee5(request, response) {
           //console.log("increased stock:", increased_stock);
 
           console.log("\n    sku_id: ".concat(id, ",\n    decreased_stock: ").concat(decreased_stock, ",\n  "));
-          return _context8.abrupt("return", request.status(200));
+          return _context8.abrupt("return", response.status(200));
 
         case 10:
         case "end":

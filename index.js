@@ -120,7 +120,7 @@ app.post("/increase", async (request, response) => {
   //   sku_id: id,
   //   increased_stock: increased_stock,
   // });
-  return request.status(200);
+  return response.status(200);
 
   // response.send(json);
 });
@@ -139,8 +139,7 @@ app.post("/decrease", async (request, response) => {
     sku_id: ${id},
     decreased_stock: ${decreased_stock},
   `);
-  return request.status(200);
-
+  return response.status(200);
   // response.send(json);
 });
 
