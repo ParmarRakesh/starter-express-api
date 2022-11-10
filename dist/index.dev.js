@@ -182,10 +182,9 @@ app.post("/increase", function _callee4(request, response) {
 
         case 6:
           increased_stock = _context7.sent;
-          console.log("\n    sku_id: ".concat(id, ",\n    current_stock: ").concat(current_stock, ",\n    increased_stock: ").concat(increased_stock, ",\n  "));
+          console.log("\n    sku_id: ".concat(id, ",\n    increased_stock: ").concat(increased_stock, ",\n  "));
           response.send({
             sku_id: id,
-            current_stock: current_stock,
             increased_stock: increased_stock
           }); // response.send(json);
 
@@ -216,10 +215,9 @@ app.post("/decrease", function _callee5(request, response) {
           console.log("Call to decrease for id ".concat(id)); //const increased_stock = await increase_stock(current_stock, id);
           //console.log("increased stock:", increased_stock);
 
-          console.log("\n    sku_id: ".concat(id, ",\n    current_stock: ").concat(current_stock, ",\n    decreased_stock: ").concat(decreased_stock, ",\n  "));
+          console.log("\n    sku_id: ".concat(id, ",\n    decreased_stock: ").concat(decreased_stock, ",\n  "));
           response.send({
             sku_id: id,
-            current_stock: current_stock,
             decreased_stock: decreased_stock
           }); // response.send(json);
 

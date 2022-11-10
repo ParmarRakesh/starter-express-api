@@ -112,12 +112,10 @@ app.post("/increase", async (request, response) => {
   const increased_stock = await increase_stock(id);
   console.log(`
     sku_id: ${id},
-    current_stock: ${current_stock},
     increased_stock: ${increased_stock},
   `);
   response.send({
     sku_id: id,
-    current_stock: current_stock,
     increased_stock: increased_stock,
   });
 
@@ -136,12 +134,10 @@ app.post("/decrease", async (request, response) => {
   //console.log("increased stock:", increased_stock);
   console.log(`
     sku_id: ${id},
-    current_stock: ${current_stock},
     decreased_stock: ${decreased_stock},
   `);
   response.send({
     sku_id: id,
-    current_stock: current_stock,
     decreased_stock: decreased_stock,
   });
 
