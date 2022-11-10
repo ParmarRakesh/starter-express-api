@@ -36,7 +36,7 @@ function get_stock(product_id) {
                 while (1) {
                   switch (_context.prev = _context.next) {
                     case 0:
-                      console.log("Current Quantity: ", res.data.stock_quantity);
+                      console.log("ID:Current Quantity: ".concat(product_id, ":").concat(res.data.stock_quantity));
                       resolve(res.data.stock_quantity);
 
                     case 2:
@@ -182,11 +182,12 @@ app.post("/increase", function _callee4(request, response) {
 
         case 6:
           increased_stock = _context7.sent;
-          console.log("\n    sku_id: ".concat(id, ",\n    increased_stock: ").concat(increased_stock, ",\n  "));
-          response.send({
-            sku_id: id,
-            increased_stock: increased_stock
-          }); // response.send(json);
+          console.log("\n    sku_id: ".concat(id, ",\n    increased_stock: ").concat(increased_stock, ",\n  ")); // response.send({
+          //   sku_id: id,
+          //   increased_stock: increased_stock,
+          // });
+
+          return _context7.abrupt("return", req.status(200));
 
         case 9:
         case "end":
@@ -216,10 +217,7 @@ app.post("/decrease", function _callee5(request, response) {
           //console.log("increased stock:", increased_stock);
 
           console.log("\n    sku_id: ".concat(id, ",\n    decreased_stock: ").concat(decreased_stock, ",\n  "));
-          response.send({
-            sku_id: id,
-            decreased_stock: decreased_stock
-          }); // response.send(json);
+          return _context8.abrupt("return", req.status(200));
 
         case 10:
         case "end":

@@ -28,7 +28,9 @@ async function get_stock(product_id) {
 
     axios(config)
       .then(async function (res) {
-        console.log("Current Quantity: ", res.data.stock_quantity);
+        console.log(
+          `ID:Current Quantity: ${product_id}:${res.data.stock_quantity}`
+        );
         resolve(res.data.stock_quantity);
       })
       .catch(function (error) {
@@ -114,10 +116,11 @@ app.post("/increase", async (request, response) => {
     sku_id: ${id},
     increased_stock: ${increased_stock},
   `);
-  response.send({
-    sku_id: id,
-    increased_stock: increased_stock,
-  });
+  // response.send({
+  //   sku_id: id,
+  //   increased_stock: increased_stock,
+  // });
+  return req.status(200);
 
   // response.send(json);
 });
@@ -136,10 +139,7 @@ app.post("/decrease", async (request, response) => {
     sku_id: ${id},
     decreased_stock: ${decreased_stock},
   `);
-  response.send({
-    sku_id: id,
-    decreased_stock: decreased_stock,
-  });
+  return req.status(200);
 
   // response.send(json);
 });
