@@ -38,8 +38,8 @@ async function get_stock(product_id) {
 }
 
 async function decrease_stock(product_id) {
+  let current_stock = await get_stock(product_id);
   return new Promise(async (resolve, reject) => {
-    let current_stock = await get_stock(product_id);
     current_stock = current_stock - 1;
     var data = JSON.stringify({
       stock_quantity: current_stock,
