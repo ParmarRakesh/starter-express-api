@@ -59,22 +59,21 @@ function get_stock(product_id) {
 }
 
 function decrease_stock(product_id) {
-  var current_stock;
   return regeneratorRuntime.async(function decrease_stock$(_context4) {
     while (1) {
       switch (_context4.prev = _context4.next) {
         case 0:
-          _context4.next = 2;
-          return regeneratorRuntime.awrap(get_stock(product_id));
-
-        case 2:
-          current_stock = _context4.sent;
           return _context4.abrupt("return", new Promise(function _callee2(resolve, reject) {
-            var data, config;
+            var current_stock, data, config;
             return regeneratorRuntime.async(function _callee2$(_context3) {
               while (1) {
                 switch (_context3.prev = _context3.next) {
                   case 0:
+                    _context3.next = 2;
+                    return regeneratorRuntime.awrap(get_stock(product_id));
+
+                  case 2:
+                    current_stock = _context3.sent;
                     current_stock = current_stock - 1;
                     data = JSON.stringify({
                       stock_quantity: current_stock
@@ -96,7 +95,7 @@ function decrease_stock(product_id) {
                       console.log(error);
                     });
 
-                  case 4:
+                  case 7:
                   case "end":
                     return _context3.stop();
                 }
@@ -104,7 +103,7 @@ function decrease_stock(product_id) {
             });
           }));
 
-        case 4:
+        case 1:
         case "end":
           return _context4.stop();
       }
