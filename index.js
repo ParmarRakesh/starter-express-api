@@ -167,7 +167,7 @@ async function increase_stock(product_id) {
       console.log(error);
     });
 }
-app.post("/increase", (request, response) => {
+app.post("/increase", async (request, response) => {
   const json = {
     key: "hello",
   };
@@ -175,7 +175,7 @@ app.post("/increase", (request, response) => {
   console.log("test");
   const id = request.body.id;
   // const decreased_stock = await decrease_stock(current_stock, id);
-  const inc = increase_stock(id);
+  const inc = await increase_stock(id);
   // response.send({
   //   sku_id: id,
   //   increased_stock: increased_stock,
@@ -185,14 +185,14 @@ app.post("/increase", (request, response) => {
 
   // response.send(json);
 });
-app.post("/decrease", (request, response) => {
+app.post("/decrease", async (request, response) => {
   const json = {
     key: "hello",
   };
   console.log(request.body);
   console.log("test");
   const id = request.body.id;
-  const dec = decrease_stock(id);
+  const dec = await decrease_stock(id);
   console.log(`Call to decrease for id ${id}`);
   //const increased_stock = await increase_stock(current_stock, id);
   //console.log("increased stock:", increased_stock);
