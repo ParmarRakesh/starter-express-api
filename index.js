@@ -49,7 +49,7 @@ const sendGetRequest = async () => {
   try {
     var config = {
       method: "get",
-      url: `https://alittlething.co/wp-json/wc/v3/products/${product_id}`,
+      url: `https://alittlething.co/wp-json/wc/v3/products/17331`,
       headers: {
         Authorization:
           "Basic Y2tfYjc2MjZmYWJhM2MzYTFkNWU0ZjMyYmNhMmQ5NGFjMTM1NWUzMjE1Mjpjc18yNGM0ZGU5ZDU1Y2Y0ZjExYTRiMmU3MWQ1NGVlOTJhMGE0MGExNzFm",
