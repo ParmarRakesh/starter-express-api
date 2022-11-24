@@ -13,9 +13,9 @@ app.get("/", (req, res) => {
   console.log("Just got a request!");
   res.send("Yo! Hello");
 });
-app.get("/data", (req, res) => {
+app.get("/data", async (req, res) => {
   console.log("Just got a request!");
-  const data = sendGetRequest();
+  const data = await sendGetRequest();
   res.send(data);
 });
 
