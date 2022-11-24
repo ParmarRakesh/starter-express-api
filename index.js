@@ -15,8 +15,8 @@ app.get("/", (req, res) => {
 });
 app.get("/data", (req, res) => {
   console.log("Just got a request!");
-  sendGetRequest();
-  res.send("Yo! Hello");
+  const data = sendGetRequest();
+  res.send(data);
 });
 
 async function get_stock(product_id) {
@@ -59,7 +59,9 @@ const sendGetRequest = async () => {
     };
 
     const resp = await axios(config);
+
     console.log(resp.data);
+    return resp.data;
   } catch (err) {
     // Handle Error Here
     console.error(err);
