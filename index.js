@@ -13,6 +13,11 @@ app.get("/", (req, res) => {
   console.log("Just got a request!");
   res.send("Yo! Hello");
 });
+app.get("/data", (req, res) => {
+  console.log("Just got a request!");
+  sendGetRequest();
+  res.send("Yo! Hello");
+});
 
 async function get_stock(product_id) {
   return new Promise((resolve, reject) => {
@@ -39,6 +44,27 @@ async function get_stock(product_id) {
       });
   });
 }
+
+const sendGetRequest = async () => {
+  try {
+    var config = {
+      method: "get",
+      url: `https://alittlething.co/wp-json/wc/v3/products/${product_id}`,
+      headers: {
+        Authorization:
+          "Basic Y2tfYjc2MjZmYWJhM2MzYTFkNWU0ZjMyYmNhMmQ5NGFjMTM1NWUzMjE1Mjpjc18yNGM0ZGU5ZDU1Y2Y0ZjExYTRiMmU3MWQ1NGVlOTJhMGE0MGExNzFm",
+        Cookie:
+          "PHPSESSID=ctdi4iuc2l05sqekepdm5cipqo; mailchimp_landing_site=https%3A%2F%2Falittlething.co%2Fwp-json%2Fwc%2Fv3%2Fproducts%2F20223; wfwaf-authcookie-65e717bb942274366e37ef93fe37e38d=827%7Cadministrator%7Cmanage_options%2Cunfiltered_html%2Cedit_others_posts%2Cupload_files%2Cpublish_posts%2Cedit_posts%2Cread%7Cd9099ef84dfa79b02b3d4953d5f9efab172e42b38fb73604655b25930e51fbee",
+      },
+    };
+
+    const resp = await axios(config);
+    console.log(resp.data);
+  } catch (err) {
+    // Handle Error Here
+    console.error(err);
+  }
+};
 
 async function decrease_stock_promise(product_id) {
   return new Promise(async (resolve, reject) => {
