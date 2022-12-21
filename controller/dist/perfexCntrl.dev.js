@@ -45,28 +45,27 @@ var searchContactbyEmail = function searchContactbyEmail(data) {
 
         case 5:
           response = _context.sent;
-          console.log("ContactSearchByEmail:");
-          console.log(JSON.stringify(response.data));
+          console.log("ContactSearchByEmail:"); // console.log(JSON.stringify(response.data));
+
           return _context.abrupt("return", response.data);
 
-        case 11:
-          _context.prev = 11;
+        case 10:
+          _context.prev = 10;
           _context.t0 = _context["catch"](2);
 
           if (!_context.t0.response) {
-            _context.next = 16;
+            _context.next = 14;
             break;
           }
 
-          console.log(_context.t0.response.data);
           return _context.abrupt("return", _context.t0.response.data);
 
-        case 16:
+        case 14:
         case "end":
           return _context.stop();
       }
     }
-  }, null, null, [[2, 11]]);
+  }, null, null, [[2, 10]]);
 };
 
 var searchInvoicebyPhone = function searchInvoicebyPhone(data) {
@@ -91,27 +90,25 @@ var searchInvoicebyPhone = function searchInvoicebyPhone(data) {
 
         case 5:
           response = _context2.sent;
-          console.log(JSON.stringify(response.data));
           return _context2.abrupt("return", response.data);
 
-        case 10:
-          _context2.prev = 10;
+        case 9:
+          _context2.prev = 9;
           _context2.t0 = _context2["catch"](2);
 
           if (!_context2.t0.response) {
-            _context2.next = 15;
+            _context2.next = 13;
             break;
           }
 
-          console.log(_context2.t0.response.data);
           return _context2.abrupt("return", _context2.t0.response.data);
 
-        case 15:
+        case 13:
         case "end":
           return _context2.stop();
       }
     }
-  }, null, null, [[2, 10]]);
+  }, null, null, [[2, 9]]);
 };
 
 var createInvoice = function createInvoice(invoiceData) {
@@ -128,21 +125,21 @@ var createInvoice = function createInvoice(invoiceData) {
 
         case 4:
           customerData = _context3.sent;
-          console.log("customerData1");
-          console.log(customerData);
+          console.log("customerData1"); // console.log(customerData);
+
           customerData = customerData.find(function (item) {
             return item.phonenumber == "".concat(invoiceData.contact.phonenumber);
           });
           customer_id = customerData.userid;
-          console.log("customerData After find");
-          console.log(customerData); //To get next invoice number, search invoices if not found then start by one otherwise get the latest maximum
+          console.log("customerData After find"); //  console.log(customerData);
+          //To get next invoice number, search invoices if not found then start by one otherwise get the latest maximum
           //invoice number
           //const invoicesearch = await searchInvoicebyPhone(customerData);
 
-          _context3.next = 13;
+          _context3.next = 11;
           return regeneratorRuntime.awrap(getAllinvoice());
 
-        case 13:
+        case 11:
           allInvoices = _context3.sent;
           // if (!invoicesearch.hasOwnProperty("status")) {
           //   maxInvoicenumber = Math.max.apply(
@@ -176,28 +173,26 @@ var createInvoice = function createInvoice(invoiceData) {
             }, data.getHeaders()),
             data: data
           };
-          console.log("Invoice Details");
-          console.log(JSON.stringify(config, "", 2));
-          _context3.prev = 29;
-          _context3.next = 32;
+          console.log("Invoice Details"); //console.log(JSON.stringify(config, "", 2));
+
+          _context3.prev = 26;
+          _context3.next = 29;
           return regeneratorRuntime.awrap(axios(config));
 
-        case 32:
+        case 29:
           response = _context3.sent;
-          console.log(JSON.stringify(response.data));
           return _context3.abrupt("return", response.data);
 
-        case 37:
-          _context3.prev = 37;
-          _context3.t0 = _context3["catch"](29);
-          console.log(_context3.t0.response);
+        case 33:
+          _context3.prev = 33;
+          _context3.t0 = _context3["catch"](26);
 
-        case 40:
+        case 35:
         case "end":
           return _context3.stop();
       }
     }
-  }, null, null, [[29, 37]]);
+  }, null, null, [[26, 33]]);
 };
 
 var createContact = function createContact(contact) {
@@ -247,20 +242,19 @@ var createContact = function createContact(contact) {
 
         case 22:
           response = _context4.sent;
-          console.log(JSON.stringify(response.data));
           return _context4.abrupt("return", response.data);
 
-        case 27:
-          _context4.prev = 27;
+        case 26:
+          _context4.prev = 26;
           _context4.t0 = _context4["catch"](19);
           console.log(_context4.t0);
 
-        case 30:
+        case 29:
         case "end":
           return _context4.stop();
       }
     }
-  }, null, null, [[19, 27]]);
+  }, null, null, [[19, 26]]);
 };
 
 var createCustomer = function createCustomer(customer) {
@@ -289,20 +283,19 @@ var createCustomer = function createCustomer(customer) {
 
         case 8:
           response = _context5.sent;
-          console.log(JSON.stringify(response.data));
           return _context5.abrupt("return", response.data);
 
-        case 13:
-          _context5.prev = 13;
+        case 12:
+          _context5.prev = 12;
           _context5.t0 = _context5["catch"](5);
           console.log(_context5.t0);
 
-        case 16:
+        case 15:
         case "end":
           return _context5.stop();
       }
     }
-  }, null, null, [[5, 13]]);
+  }, null, null, [[5, 12]]);
 };
 
 var searchCustomerbyName = function searchCustomerbyName(customerName) {
@@ -327,27 +320,26 @@ var searchCustomerbyName = function searchCustomerbyName(customerName) {
 
         case 5:
           response = _context6.sent;
-          console.log(JSON.stringify(response.data));
           return _context6.abrupt("return", response.data);
 
-        case 10:
-          _context6.prev = 10;
+        case 9:
+          _context6.prev = 9;
           _context6.t0 = _context6["catch"](2);
 
           if (!_context6.t0.response) {
-            _context6.next = 15;
+            _context6.next = 14;
             break;
           }
 
           console.log(_context6.t0.response.data);
           return _context6.abrupt("return", _context6.t0.response.data);
 
-        case 15:
+        case 14:
         case "end":
           return _context6.stop();
       }
     }
-  }, null, null, [[2, 10]]);
+  }, null, null, [[2, 9]]);
 };
 
 var getAllinvoice = function getAllinvoice() {
@@ -372,27 +364,26 @@ var getAllinvoice = function getAllinvoice() {
 
         case 5:
           response = _context7.sent;
-          console.log(JSON.stringify(response.data));
           return _context7.abrupt("return", response.data);
 
-        case 10:
-          _context7.prev = 10;
+        case 9:
+          _context7.prev = 9;
           _context7.t0 = _context7["catch"](2);
 
           if (!_context7.t0.response) {
-            _context7.next = 15;
+            _context7.next = 14;
             break;
           }
 
           console.log(_context7.t0.response.data);
           return _context7.abrupt("return", _context7.t0.response.data);
 
-        case 15:
+        case 14:
         case "end":
           return _context7.stop();
       }
     }
-  }, null, null, [[2, 10]]);
+  }, null, null, [[2, 9]]);
 }; // Export of all methods as object
 
 

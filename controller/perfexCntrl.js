@@ -23,11 +23,11 @@ const searchContactbyEmail = async (data) => {
   try {
     let response = await axios(config);
     console.log("ContactSearchByEmail:");
-    console.log(JSON.stringify(response.data));
+    // console.log(JSON.stringify(response.data));
     return response.data;
   } catch (error) {
     if (error.response) {
-      console.log(error.response.data);
+      //   console.log(error.response.data);
       return error.response.data;
     }
   }
@@ -47,11 +47,11 @@ const searchInvoicebyPhone = async (data) => {
 
   try {
     let response = await axios(config);
-    console.log(JSON.stringify(response.data));
+    // console.log(JSON.stringify(response.data));
     return response.data;
   } catch (error) {
     if (error.response) {
-      console.log(error.response.data);
+      //   console.log(error.response.data);
       return error.response.data;
     }
   }
@@ -63,13 +63,13 @@ const createInvoice = async (invoiceData) => {
   //Get clientId by searching customer by name and phone
   let customerData = await searchCustomerbyName(invoiceData.contact.company);
   console.log("customerData1");
-  console.log(customerData);
+  // console.log(customerData);
   customerData = customerData.find(
     (item) => item.phonenumber == `${invoiceData.contact.phonenumber}`
   );
   customer_id = customerData.userid;
   console.log("customerData After find");
-  console.log(customerData);
+  //  console.log(customerData);
   //To get next invoice number, search invoices if not found then start by one otherwise get the latest maximum
   //invoice number
   //const invoicesearch = await searchInvoicebyPhone(customerData);
@@ -117,14 +117,14 @@ const createInvoice = async (invoiceData) => {
     data: data,
   };
   console.log("Invoice Details");
-  console.log(JSON.stringify(config, "", 2));
+  //console.log(JSON.stringify(config, "", 2));
 
   try {
     let response = await axios(config);
-    console.log(JSON.stringify(response.data));
+    // console.log(JSON.stringify(response.data));
     return response.data;
   } catch (error) {
-    console.log(error.response);
+    //  console.log(error.response);
   }
 };
 
@@ -161,7 +161,7 @@ const createContact = async (contact) => {
 
   try {
     let response = await axios(config);
-    console.log(JSON.stringify(response.data));
+    //   console.log(JSON.stringify(response.data));
     return response.data;
   } catch (error) {
     console.log(error);
@@ -186,7 +186,7 @@ const createCustomer = async (customer) => {
 
   try {
     let response = await axios(config);
-    console.log(JSON.stringify(response.data));
+    //  console.log(JSON.stringify(response.data));
     return response.data;
   } catch (error) {
     console.log(error);
@@ -207,7 +207,7 @@ const searchCustomerbyName = async (customerName) => {
 
   try {
     let response = await axios(config);
-    console.log(JSON.stringify(response.data));
+    // console.log(JSON.stringify(response.data));
     return response.data;
   } catch (error) {
     if (error.response) {
@@ -231,7 +231,7 @@ const getAllinvoice = async () => {
 
   try {
     let response = await axios(config);
-    console.log(JSON.stringify(response.data));
+    // console.log(JSON.stringify(response.data));
     return response.data;
   } catch (error) {
     if (error.response) {
