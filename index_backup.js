@@ -15,13 +15,7 @@ const WooCommerce = new WooCommerceRestApi({
   consumerSecret: "cs_24c4de9d55cf4f11a4b2e71d54ee92a0a40a171f",
   version: "wc/v3",
 });
-WooCommerce.get("products/17331")
-  .then((response) => {
-    console.log(response.data);
-  })
-  .catch((error) => {
-    console.log(error.response.data);
-  });
+
 // For parsing application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 app.get("/", (req, res) => {

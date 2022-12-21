@@ -4,6 +4,8 @@ const https = require("https");
 
 const app = express();
 // For parsing application/json
+const perfexCntrl = require("./controller/perfexCntrl");
+
 app.use(express.json());
 const port = process.env.port || 3000;
 const WooCommerceRestApi = require("@woocommerce/woocommerce-rest-api").default;
@@ -77,7 +79,37 @@ async function increase_stock(product_id) {
     console.log(error.response.data);
   }
 }
-
+app.post("/route", async (request, response) => {
+  var sample = {
+    contact: {
+      FirstName: "RAP",
+      LastName: "Par",
+      Company: "Tree",
+      Email: "abc",
+      PhoneNumber: "1233214567",
+    },
+    invoice: {
+      Date: Date.now(),
+      Currency: "1",
+      newitems: "['mobilw']",
+      subtotal: "12.0",
+      total: "100.0",
+      billing_street: "Morbi",
+      allowed_payment_modes: "['bank']",
+      PhoneNumber: "1233214567",
+    },
+  };
+  console.log(request.body);
+  const res = await perfexCntrl.searchContactbyEmail(request.body.contact);
+  if (res.hasOwnProperty("status")) {
+    const newContact = await perfexCntrl.createContact(request.body.contact);
+  }
+  const newInvoice = await perfexCntrl.createInvoice(request.body);
+  response.send("thanks");
+});
+app.post("/test", async (request, response) => {
+  console.log(request.body.sessionInfo.parameters);
+});
 app.post("/increase", async (request, response) => {
   const json = {
     key: "hello",

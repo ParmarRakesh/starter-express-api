@@ -1,13 +1,29 @@
 "use strict";
 
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 var express = require("express");
 
 var axios = require("axios");
 
+var https = require("https");
+
 var app = express(); // For parsing application/json
 
+var perfexCntrl = require("./controller/perfexCntrl");
+
 app.use(express.json());
-var port = process.env.port || 3000; // For parsing application/x-www-form-urlencoded
+var port = process.env.port || 3000;
+
+var WooCommerceRestApi = require("@woocommerce/woocommerce-rest-api")["default"]; // import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api"; // Supports ESM
+
+
+var WooCommerce = new WooCommerceRestApi({
+  url: "https://alittlething.co",
+  consumerKey: "ck_b7626faba3c3a1d5e4f32bca2d94ac1355e32152",
+  consumerSecret: "cs_24c4de9d55cf4f11a4b2e71d54ee92a0a40a171f",
+  version: "wc/v3"
+}); // For parsing application/x-www-form-urlencoded
 
 app.use(express.urlencoded({
   extended: true
@@ -18,237 +34,190 @@ app.get("/", function (req, res) {
 });
 
 function get_stock(product_id) {
-  return regeneratorRuntime.async(function get_stock$(_context2) {
+  var response;
+  return regeneratorRuntime.async(function get_stock$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+          _context.prev = 0;
+          _context.next = 3;
+          return regeneratorRuntime.awrap(WooCommerce.get("products/".concat(product_id)));
+
+        case 3:
+          response = _context.sent;
+          console.log(response.data.stock_quantity);
+          return _context.abrupt("return", response.data.stock_quantity);
+
+        case 8:
+          _context.prev = 8;
+          _context.t0 = _context["catch"](0);
+          console.log(_context.t0.response.data);
+
+        case 11:
+        case "end":
+          return _context.stop();
+      }
+    }
+  }, null, null, [[0, 8]]);
+}
+
+function decrease_stock(product_id) {
+  var current_stock, data, response1;
+  return regeneratorRuntime.async(function decrease_stock$(_context2) {
     while (1) {
       switch (_context2.prev = _context2.next) {
         case 0:
-          return _context2.abrupt("return", new Promise(function (resolve, reject) {
-            var config = {
-              method: "get",
-              url: "https://alittlething.co/wp-json/wc/v3/products/".concat(product_id),
-              headers: {
-                Authorization: "Basic Y2tfYjc2MjZmYWJhM2MzYTFkNWU0ZjMyYmNhMmQ5NGFjMTM1NWUzMjE1Mjpjc18yNGM0ZGU5ZDU1Y2Y0ZjExYTRiMmU3MWQ1NGVlOTJhMGE0MGExNzFm",
-                Cookie: "PHPSESSID=ctdi4iuc2l05sqekepdm5cipqo; mailchimp_landing_site=https%3A%2F%2Falittlething.co%2Fwp-json%2Fwc%2Fv3%2Fproducts%2F20223; wfwaf-authcookie-65e717bb942274366e37ef93fe37e38d=827%7Cadministrator%7Cmanage_options%2Cunfiltered_html%2Cedit_others_posts%2Cupload_files%2Cpublish_posts%2Cedit_posts%2Cread%7Cd9099ef84dfa79b02b3d4953d5f9efab172e42b38fb73604655b25930e51fbee"
-              }
-            };
-            axios(config).then(function _callee(res) {
-              return regeneratorRuntime.async(function _callee$(_context) {
-                while (1) {
-                  switch (_context.prev = _context.next) {
-                    case 0:
-                      console.log("ID:".concat(product_id, ", Current Quantity:").concat(res.data.stock_quantity));
-                      resolve(res.data.stock_quantity);
+          _context2.prev = 0;
+          _context2.next = 3;
+          return regeneratorRuntime.awrap(get_stock(product_id));
 
-                    case 2:
-                    case "end":
-                      return _context.stop();
-                  }
-                }
-              });
-            })["catch"](function (error) {
-              console.log(error);
-            });
-          }));
+        case 3:
+          current_stock = _context2.sent;
+          console.log(_typeof(current_stock));
+          console.log("current_stock:".concat(current_stock));
+          current_stock = current_stock - 1;
+          data = {
+            stock_quantity: current_stock
+          };
+          console.log("current_stock", current_stock);
+          _context2.next = 11;
+          return regeneratorRuntime.awrap(WooCommerce.put("products/".concat(product_id), data));
 
-        case 1:
+        case 11:
+          response1 = _context2.sent;
+          console.log("\n        sku_id: ".concat(product_id, ",\n        decreased_stock: ").concat(response1.data.stock_quantity, ",\n       "));
+          return _context2.abrupt("return", response1.data.stock_quantity);
+
+        case 16:
+          _context2.prev = 16;
+          _context2.t0 = _context2["catch"](0);
+          console.log(_context2.t0.response.data);
+
+        case 19:
         case "end":
           return _context2.stop();
       }
     }
-  });
+  }, null, null, [[0, 16]]);
 }
 
-function decrease_stock_promise(product_id) {
-  return regeneratorRuntime.async(function decrease_stock_promise$(_context4) {
+function increase_stock(product_id) {
+  var current_stock, data, response1;
+  return regeneratorRuntime.async(function increase_stock$(_context3) {
+    while (1) {
+      switch (_context3.prev = _context3.next) {
+        case 0:
+          _context3.prev = 0;
+          _context3.next = 3;
+          return regeneratorRuntime.awrap(get_stock(product_id));
+
+        case 3:
+          current_stock = _context3.sent;
+          console.log(_typeof(current_stock));
+          console.log("current_stock:".concat(current_stock));
+          current_stock = current_stock + 1;
+          data = {
+            stock_quantity: current_stock
+          };
+          console.log("current_stock", current_stock);
+          _context3.next = 11;
+          return regeneratorRuntime.awrap(WooCommerce.put("products/".concat(product_id), data));
+
+        case 11:
+          response1 = _context3.sent;
+          console.log("\n        sku_id: ".concat(product_id, ",\n        decreased_stock: ").concat(response1.data.stock_quantity, ",\n       "));
+          return _context3.abrupt("return", response1.data.stock_quantity);
+
+        case 16:
+          _context3.prev = 16;
+          _context3.t0 = _context3["catch"](0);
+          console.log(_context3.t0.response.data);
+
+        case 19:
+        case "end":
+          return _context3.stop();
+      }
+    }
+  }, null, null, [[0, 16]]);
+}
+
+app.post("/route", function _callee(request, response) {
+  var sample, res, newContact, newInvoice;
+  return regeneratorRuntime.async(function _callee$(_context4) {
     while (1) {
       switch (_context4.prev = _context4.next) {
         case 0:
-          return _context4.abrupt("return", new Promise(function _callee2(resolve, reject) {
-            var current_stock, data, config;
-            return regeneratorRuntime.async(function _callee2$(_context3) {
-              while (1) {
-                switch (_context3.prev = _context3.next) {
-                  case 0:
-                    _context3.next = 2;
-                    return regeneratorRuntime.awrap(get_stock(product_id));
+          sample = {
+            contact: {
+              FirstName: "RAP",
+              LastName: "Par",
+              Company: "Tree",
+              Email: "abc",
+              PhoneNumber: "1233214567"
+            },
+            invoice: {
+              Date: Date.now(),
+              Currency: "1",
+              newitems: "['mobilw']",
+              subtotal: "12.0",
+              total: "100.0",
+              billing_street: "Morbi",
+              allowed_payment_modes: "['bank']",
+              PhoneNumber: "1233214567"
+            }
+          };
+          console.log(request.body);
+          _context4.next = 4;
+          return regeneratorRuntime.awrap(perfexCntrl.searchContactbyEmail(request.body.contact));
 
-                  case 2:
-                    current_stock = _context3.sent;
-                    current_stock = current_stock - 1;
-                    data = JSON.stringify({
-                      stock_quantity: current_stock
-                    });
-                    config = {
-                      method: "put",
-                      url: "https://alittlething.co/wp-json/wc/v3/products/".concat(product_id),
-                      headers: {
-                        Authorization: "Basic Y2tfYjc2MjZmYWJhM2MzYTFkNWU0ZjMyYmNhMmQ5NGFjMTM1NWUzMjE1Mjpjc18yNGM0ZGU5ZDU1Y2Y0ZjExYTRiMmU3MWQ1NGVlOTJhMGE0MGExNzFm",
-                        "Content-Type": "application/json",
-                        Cookie: "PHPSESSID=ctdi4iuc2l05sqekepdm5cipqo; mailchimp_landing_site=https%3A%2F%2Falittlething.co%2Fwp-json%2Fwc%2Fv3%2Fproducts%2F20186; wfwaf-authcookie-65e717bb942274366e37ef93fe37e38d=827%7Cadministrator%7Cmanage_options%2Cunfiltered_html%2Cedit_others_posts%2Cupload_files%2Cpublish_posts%2Cedit_posts%2Cread%7C7f126310333728ebad0db9da48b967fded175b927eabb592c4f3bc8d7e2d2ab3"
-                      },
-                      data: data
-                    };
-                    axios(config).then(function (response) {
-                      //console.log(response.data);
-                      resolve(response.data.stock_quantity);
-                    })["catch"](function (error) {
-                      console.log(error);
-                    });
+        case 4:
+          res = _context4.sent;
 
-                  case 7:
-                  case "end":
-                    return _context3.stop();
-                }
-              }
-            });
-          }));
+          if (!res.hasOwnProperty("status")) {
+            _context4.next = 9;
+            break;
+          }
 
-        case 1:
+          _context4.next = 8;
+          return regeneratorRuntime.awrap(perfexCntrl.createContact(request.body.contact));
+
+        case 8:
+          newContact = _context4.sent;
+
+        case 9:
+          _context4.next = 11;
+          return regeneratorRuntime.awrap(perfexCntrl.createInvoice(request.body));
+
+        case 11:
+          newInvoice = _context4.sent;
+          response.send("thanks");
+
+        case 13:
         case "end":
           return _context4.stop();
       }
     }
   });
-}
-
-function increase_stock_promise(product_id) {
-  return regeneratorRuntime.async(function increase_stock_promise$(_context6) {
+});
+app.post("/test", function _callee2(request, response) {
+  return regeneratorRuntime.async(function _callee2$(_context5) {
     while (1) {
-      switch (_context6.prev = _context6.next) {
+      switch (_context5.prev = _context5.next) {
         case 0:
-          return _context6.abrupt("return", new Promise(function _callee3(resolve, reject) {
-            var current_stock, data, config;
-            return regeneratorRuntime.async(function _callee3$(_context5) {
-              while (1) {
-                switch (_context5.prev = _context5.next) {
-                  case 0:
-                    _context5.next = 2;
-                    return regeneratorRuntime.awrap(get_stock(product_id));
-
-                  case 2:
-                    current_stock = _context5.sent;
-                    current_stock = current_stock + 1;
-                    data = JSON.stringify({
-                      stock_quantity: current_stock
-                    });
-                    config = {
-                      method: "put",
-                      url: "https://alittlething.co/wp-json/wc/v3/products/".concat(product_id),
-                      headers: {
-                        Authorization: "Basic Y2tfYjc2MjZmYWJhM2MzYTFkNWU0ZjMyYmNhMmQ5NGFjMTM1NWUzMjE1Mjpjc18yNGM0ZGU5ZDU1Y2Y0ZjExYTRiMmU3MWQ1NGVlOTJhMGE0MGExNzFm",
-                        "Content-Type": "application/json",
-                        Cookie: "PHPSESSID=ctdi4iuc2l05sqekepdm5cipqo; mailchimp_landing_site=https%3A%2F%2Falittlething.co%2Fwp-json%2Fwc%2Fv3%2Fproducts%2F20186; wfwaf-authcookie-65e717bb942274366e37ef93fe37e38d=827%7Cadministrator%7Cmanage_options%2Cunfiltered_html%2Cedit_others_posts%2Cupload_files%2Cpublish_posts%2Cedit_posts%2Cread%7C7f126310333728ebad0db9da48b967fded175b927eabb592c4f3bc8d7e2d2ab3"
-                      },
-                      data: data
-                    };
-                    axios(config).then(function (response) {
-                      console.log(response.data.stock_quantity);
-                      resolve(response.data.stock_quantity);
-                    })["catch"](function (error) {
-                      console.log(error);
-                    });
-
-                  case 7:
-                  case "end":
-                    return _context5.stop();
-                }
-              }
-            });
-          }));
+          console.log(request.body.sessionInfo.parameters);
 
         case 1:
         case "end":
-          return _context6.stop();
+          return _context5.stop();
       }
     }
   });
-}
-
-function decrease_stock(product_id) {
-  var current_stock, data, config;
-  return regeneratorRuntime.async(function decrease_stock$(_context7) {
-    while (1) {
-      switch (_context7.prev = _context7.next) {
-        case 0:
-          _context7.next = 2;
-          return regeneratorRuntime.awrap(get_stock(product_id));
-
-        case 2:
-          current_stock = _context7.sent;
-          current_stock = current_stock - 1;
-          data = JSON.stringify({
-            stock_quantity: current_stock
-          });
-          config = {
-            method: "put",
-            url: "https://alittlething.co/wp-json/wc/v3/products/".concat(product_id),
-            headers: {
-              Authorization: "Basic Y2tfYjc2MjZmYWJhM2MzYTFkNWU0ZjMyYmNhMmQ5NGFjMTM1NWUzMjE1Mjpjc18yNGM0ZGU5ZDU1Y2Y0ZjExYTRiMmU3MWQ1NGVlOTJhMGE0MGExNzFm",
-              "Content-Type": "application/json",
-              Cookie: "PHPSESSID=ctdi4iuc2l05sqekepdm5cipqo; mailchimp_landing_site=https%3A%2F%2Falittlething.co%2Fwp-json%2Fwc%2Fv3%2Fproducts%2F20186; wfwaf-authcookie-65e717bb942274366e37ef93fe37e38d=827%7Cadministrator%7Cmanage_options%2Cunfiltered_html%2Cedit_others_posts%2Cupload_files%2Cpublish_posts%2Cedit_posts%2Cread%7C7f126310333728ebad0db9da48b967fded175b927eabb592c4f3bc8d7e2d2ab3"
-            },
-            data: data
-          };
-          axios(config).then(function (response) {
-            console.log("\n      sku_id: ".concat(product_id, ",\n      decreased_stock: ").concat(response.data.stock_quantity, ",\n     "));
-            return response.data.stock_quantity;
-          })["catch"](function (error) {
-            console.log(error);
-          });
-
-        case 7:
-        case "end":
-          return _context7.stop();
-      }
-    }
-  });
-}
-
-function increase_stock(product_id) {
-  var current_stock, data, config;
-  return regeneratorRuntime.async(function increase_stock$(_context8) {
-    while (1) {
-      switch (_context8.prev = _context8.next) {
-        case 0:
-          _context8.next = 2;
-          return regeneratorRuntime.awrap(get_stock(product_id));
-
-        case 2:
-          current_stock = _context8.sent;
-          current_stock = current_stock + 1;
-          data = JSON.stringify({
-            stock_quantity: current_stock
-          });
-          config = {
-            method: "put",
-            url: "https://alittlething.co/wp-json/wc/v3/products/".concat(product_id),
-            headers: {
-              Authorization: "Basic Y2tfYjc2MjZmYWJhM2MzYTFkNWU0ZjMyYmNhMmQ5NGFjMTM1NWUzMjE1Mjpjc18yNGM0ZGU5ZDU1Y2Y0ZjExYTRiMmU3MWQ1NGVlOTJhMGE0MGExNzFm",
-              "Content-Type": "application/json",
-              Cookie: "PHPSESSID=ctdi4iuc2l05sqekepdm5cipqo; mailchimp_landing_site=https%3A%2F%2Falittlething.co%2Fwp-json%2Fwc%2Fv3%2Fproducts%2F20186; wfwaf-authcookie-65e717bb942274366e37ef93fe37e38d=827%7Cadministrator%7Cmanage_options%2Cunfiltered_html%2Cedit_others_posts%2Cupload_files%2Cpublish_posts%2Cedit_posts%2Cread%7C7f126310333728ebad0db9da48b967fded175b927eabb592c4f3bc8d7e2d2ab3"
-            },
-            data: data
-          };
-          axios(config).then(function (response) {
-            console.log("\n      sku_id: ".concat(product_id, ",\n      increased_stock: ").concat(response.data.stock_quantity, ",\n     "));
-            return response.data.stock_quantity;
-          })["catch"](function (error) {
-            console.log(error);
-          });
-
-        case 7:
-        case "end":
-          return _context8.stop();
-      }
-    }
-  });
-}
-
-app.post("/increase", function _callee4(request, response) {
+});
+app.post("/increase", function _callee3(request, response) {
   var json, id, inc;
-  return regeneratorRuntime.async(function _callee4$(_context9) {
+  return regeneratorRuntime.async(function _callee3$(_context6) {
     while (1) {
-      switch (_context9.prev = _context9.next) {
+      switch (_context6.prev = _context6.next) {
         case 0:
           json = {
             key: "hello"
@@ -257,11 +226,11 @@ app.post("/increase", function _callee4(request, response) {
           console.log("test");
           id = request.body.id; // const decreased_stock = await decrease_stock(current_stock, id);
 
-          _context9.next = 6;
+          _context6.next = 6;
           return regeneratorRuntime.awrap(increase_stock(id));
 
         case 6:
-          inc = _context9.sent;
+          inc = _context6.sent;
           // response.send({
           //   sku_id: id,
           //   increased_stock: increased_stock,
@@ -274,16 +243,16 @@ app.post("/increase", function _callee4(request, response) {
 
         case 8:
         case "end":
-          return _context9.stop();
+          return _context6.stop();
       }
     }
   });
 });
-app.post("/decrease", function _callee5(request, response) {
+app.post("/decrease", function _callee4(request, response) {
   var json, id, dec;
-  return regeneratorRuntime.async(function _callee5$(_context10) {
+  return regeneratorRuntime.async(function _callee4$(_context7) {
     while (1) {
-      switch (_context10.prev = _context10.next) {
+      switch (_context7.prev = _context7.next) {
         case 0:
           json = {
             key: "hello"
@@ -291,11 +260,11 @@ app.post("/decrease", function _callee5(request, response) {
           console.log(request.body);
           console.log("test");
           id = request.body.id;
-          _context10.next = 6;
+          _context7.next = 6;
           return regeneratorRuntime.awrap(decrease_stock(id));
 
         case 6:
-          dec = _context10.sent;
+          dec = _context7.sent;
           console.log("Call to decrease for id ".concat(id)); //const increased_stock = await increase_stock(current_stock, id);
           //console.log("increased stock:", increased_stock);
           //console.log(`id:${id} ,decreased_stock: ${dec}`);
@@ -307,7 +276,7 @@ app.post("/decrease", function _callee5(request, response) {
 
         case 9:
         case "end":
-          return _context10.stop();
+          return _context7.stop();
       }
     }
   });
