@@ -105,7 +105,7 @@ app.post("/route", async (request, response) => {
     const newContact = await perfexCntrl.createContact(request.body.contact);
   }
   const newInvoice = await perfexCntrl.createInvoice(request.body);
-  response.send("thanks");
+  response.status(200).json(newInvoice);
 });
 app.post("/test", async (request, response) => {
   console.log(request.body.sessionInfo.parameters);

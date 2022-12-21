@@ -190,7 +190,7 @@ app.post("/route", function _callee(request, response) {
 
         case 11:
           newInvoice = _context4.sent;
-          response.send("thanks");
+          response.status(200).json(newInvoice);
 
         case 13:
         case "end":
