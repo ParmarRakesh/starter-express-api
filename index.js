@@ -108,7 +108,7 @@ app.post("/route", async (request, response) => {
   response.status(200).json(newInvoice);
 });
 app.post("/test", async (request, response) => {
-  console.log(request.body.sessionInfo.parameters);
+  console.log(JSON.stringify(request.body, "", 2));
 });
 app.post("/increase", async (request, response) => {
   const json = {

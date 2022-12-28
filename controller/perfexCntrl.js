@@ -97,8 +97,11 @@ const createInvoice = async (invoiceData) => {
   data.append("date", `${invoiceData.invoice.date}`);
   data.append("currency", `${invoiceData.invoice.currency}`);
   data.append("newitems", `${invoiceData.invoice.newitems}`);
-  data.append("subtotal", `${invoiceData.invoice.subtotal}`);
-  data.append("total", `${invoiceData.invoice.total}`);
+  data.append(
+    "subtotal",
+    `${parseFloat(invoiceData.invoice.subtotal).toFixed(2)}`
+  );
+  data.append("total", `${parseFloat(invoiceData.invoice.total).toFixed(2)}`);
   data.append("billing_street", `${invoiceData.invoice.billing_street}`);
   data.append(
     "allowed_payment_modes",
@@ -117,14 +120,14 @@ const createInvoice = async (invoiceData) => {
     data: data,
   };
   console.log("Invoice Details");
-  //console.log(JSON.stringify(config, "", 2));
+  console.log(JSON.stringify(config, "", 2));
 
   try {
     let response = await axios(config);
-    // console.log(JSON.stringify(response.data));
+    console.log(JSON.stringify(response.data));
     return response.data;
   } catch (error) {
-    //  console.log(error.response);
+    console.log(error.response);
   }
 };
 

@@ -159,8 +159,8 @@ var createInvoice = function createInvoice(invoiceData) {
           data.append("date", "".concat(invoiceData.invoice.date));
           data.append("currency", "".concat(invoiceData.invoice.currency));
           data.append("newitems", "".concat(invoiceData.invoice.newitems));
-          data.append("subtotal", "".concat(invoiceData.invoice.subtotal));
-          data.append("total", "".concat(invoiceData.invoice.total));
+          data.append("subtotal", "".concat(parseFloat(invoiceData.invoice.subtotal).toFixed(2)));
+          data.append("total", "".concat(parseFloat(invoiceData.invoice.total).toFixed(2)));
           data.append("billing_street", "".concat(invoiceData.invoice.billing_street));
           data.append("allowed_payment_modes", "".concat(invoiceData.invoice.allowed_payment_modes));
           config = {
@@ -173,26 +173,28 @@ var createInvoice = function createInvoice(invoiceData) {
             }, data.getHeaders()),
             data: data
           };
-          console.log("Invoice Details"); //console.log(JSON.stringify(config, "", 2));
-
-          _context3.prev = 26;
-          _context3.next = 29;
+          console.log("Invoice Details");
+          console.log(JSON.stringify(config, "", 2));
+          _context3.prev = 27;
+          _context3.next = 30;
           return regeneratorRuntime.awrap(axios(config));
 
-        case 29:
+        case 30:
           response = _context3.sent;
+          console.log(JSON.stringify(response.data));
           return _context3.abrupt("return", response.data);
 
-        case 33:
-          _context3.prev = 33;
-          _context3.t0 = _context3["catch"](26);
-
         case 35:
+          _context3.prev = 35;
+          _context3.t0 = _context3["catch"](27);
+          console.log(_context3.t0.response);
+
+        case 38:
         case "end":
           return _context3.stop();
       }
     }
-  }, null, null, [[26, 33]]);
+  }, null, null, [[27, 35]]);
 };
 
 var createContact = function createContact(contact) {

@@ -204,7 +204,7 @@ app.post("/test", function _callee2(request, response) {
     while (1) {
       switch (_context5.prev = _context5.next) {
         case 0:
-          console.log(request.body.sessionInfo.parameters);
+          console.log(JSON.stringify(request.body, "", 2));
 
         case 1:
         case "end":
