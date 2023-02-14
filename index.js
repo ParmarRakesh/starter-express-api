@@ -79,6 +79,41 @@ async function increase_stock(product_id) {
     console.log(error.response.data);
   }
 }
+
+async function sendtoCatelogue(products) {
+  console.log(products.length);
+  let data = "";
+  for (let index = 0; index < products.length; index++) {
+    const element = products[index];
+    data =
+      data +
+      `${JSON.stringify({
+        image: products[index].Images,
+        ID: products[index].SKU,
+        Price: products[index]["Regular price"],
+        ItemName: products[index].Name,
+        Tags: products[index].Tags,
+      })}\r\n`;
+  }
+  var config = {
+    method: "post",
+    url: `${url}/api/1.1/obj/product/bulk`,
+    headers: {
+      Authorization: "Bearer 67d74dc4e8fc5a4ac2c649aca3cdbb1c",
+      "Content-Type": "text/plain",
+    },
+    data: data,
+  };
+
+  axios(config)
+    .then(function (response) {
+      console.log(JSON.stringify(response.data));
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+
 app.post("/route", async (request, response) => {
   var sample = {
     contact: {
@@ -143,6 +178,32 @@ app.post("/decrease", async (request, response) => {
 
   response.status(200).json({ status: "success", decreased_stock: dec });
   // response.send(json);
+});
+app.get("/product", async (request, response) => {
+  const json = {
+    key: "hello",
+  };
+  var axios = require("axios");
+  console.log(request.body);
+  console.log("test");
+  const id = request.body.id;
+  var config = {
+    method: "get",
+    //url: "https://sheetdb.io/api/v1/6syggp245ocxm/search?sheet=Sheet2&Regular price[]=<10&Regular price[]=>5&Stock=!=0",
+    url: "https://sheetdb.io/api/v1/ksc1cjo0smoj0",
+    headers: {},
+  };
+
+  axios(config)
+    .then(async function (res) {
+      console.log(res.data);
+      await sendtoCatelogue(res.data);
+
+      response.send(res.data);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 });
 
 app.listen(port, () => {
