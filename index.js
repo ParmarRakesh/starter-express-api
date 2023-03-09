@@ -1,6 +1,7 @@
 const express = require("express");
 var axios = require("axios");
 const https = require("https");
+const { WebhookClient } = require("dialogflow-fulfillment");
 
 const app = express();
 // For parsing application/json
