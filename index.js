@@ -576,10 +576,24 @@ const dialogflowfulfillment = (request, response) => {
 
       //check result if premise and missing is null then only show formatted address for confirmation.
       //else if result is not premise or missing is not null then ask for some more info
-      if (count <= 2) {
+      // console.log(validation.result.verdict.hasOwnProperty(addressComplete));
+      const toRemove = ["street_number", "route"];
+
+      let missing = false;
+      if (validation.result.address.hasOwnProperty("missingComponentTypes")) {
+        const filteredComponent =
+          validation.result.address.missingComponentTypes.filter(
+            (comp) => !toRemove.includes(comp)
+          );
+        if (filteredComponent.length) {
+          missing = true;
+        }
+      }
+      if (count < 2) {
         if (
-          validation.result.verdict.inputGranularity != "PREMISE" ||
-          validation.result.address.hasOwnProperty("missingComponentTypes")
+          (validation.result.verdict.inputGranularity != "PREMISE" &&
+            validation.result.verdict.inputGranularity != "SUB_PREMISE") ||
+          missing
         ) {
           agent.add("dummy");
           agent.setFollowupEvent({
