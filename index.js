@@ -1,3 +1,5 @@
+//https://delightful-outfit-seal.cyclic.app
+
 const express = require("express");
 var axios = require("axios");
 const https = require("https");
@@ -589,7 +591,7 @@ const dialogflowfulfillment = (request, response) => {
           missing = true;
         }
       }
-      if (count < 2) {
+      if (count <= 2) {
         if (
           (validation.result.verdict.inputGranularity != "PREMISE" &&
             validation.result.verdict.inputGranularity != "SUB_PREMISE") ||
