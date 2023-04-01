@@ -182,32 +182,32 @@ app.post("/decrease", async (request, response) => {
   response.status(200).json({ status: "success", decreased_stock: dec });
   // response.send(json);
 });
-app.get("/product", async (request, response) => {
-  const json = {
-    key: "hello",
-  };
-  var axios = require("axios");
-  console.log(request.body);
-  console.log("test");
-  const id = request.body.id;
-  var config = {
-    method: "get",
-    //url: "https://sheetdb.io/api/v1/6syggp245ocxm/search?sheet=Sheet2&Regular price[]=<10&Regular price[]=>5&Stock=!=0",
-    url: "https://sheetdb.io/api/v1/ksc1cjo0smoj0",
-    headers: {},
-  };
+// app.get("/product", async (request, response) => {
+//   const json = {
+//     key: "hello",
+//   };
+//   var axios = require("axios");
+//   console.log(request.body);
+//   console.log("test");
+//   const id = request.body.id;
+//   var config = {
+//     method: "get",
+//     //url: "https://sheetdb.io/api/v1/6syggp245ocxm/search?sheet=Sheet2&Regular price[]=<10&Regular price[]=>5&Stock=!=0",
+//     url: "https://sheetdb.io/api/v1/ksc1cjo0smoj0",
+//     headers: {},
+//   };
 
-  axios(config)
-    .then(async function (res) {
-      console.log(res.data);
-      await sendtoCatelogue(res.data);
+//   axios(config)
+//     .then(async function (res) {
+//       console.log(res.data);
+//       await sendtoCatelogue(res.data);
 
-      response.send(res.data);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-});
+//       response.send(res.data);
+//     })
+//     .catch(function (error) {
+//       console.log(error);
+//     });
+// });
 app.post("/dialogflow", (request, response) => {
   console.log("testing");
   console.log(request.body);
@@ -695,6 +695,64 @@ const dialogflowfulfillment = (request, response) => {
   agent.handleRequest(intentMap);
 };
 
+app.post("/faq-dialogflow", (request, response) => {
+  console.log(JSON.stringify(request.body, "", 2));
+  let status = "by default";
+  let intentName = request.body.queryResult.intent.displayName;
+  let response1;
+  switch (intentName) {
+    case "Check Order Status":
+      console.log(request.body.queryResult);
+
+      let email = request.body.queryResult.parameters.billing_email;
+      const res = checkstatus(email);
+
+      break;
+    default:
+      break;
+  }
+
+  async function checkstatus(email) {
+    try {
+      const response = await WooCommerce.get(`orders/?search=${email}`);
+
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.log(error.response.data);
+    }
+
+    response1 = {
+      fulfillment_messages: [
+        {
+          text: {
+            text: [`${status}`],
+          },
+        },
+        {
+          payload: {
+            richContent: [
+              [
+                {
+                  type: "chips",
+                  options: [
+                    {
+                      text: "Yes",
+                    },
+                    {
+                      text: "No",
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+      ],
+    };
+    response.json(response1);
+  }
+});
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
