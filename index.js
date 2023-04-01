@@ -695,17 +695,49 @@ const dialogflowfulfillment = (request, response) => {
   agent.handleRequest(intentMap);
 };
 
-app.post("/faq-dialogflow", (request, response) => {
-  //  console.log(JSON.stringify(request.body, "", 2));
+app.post("/faq-dialogflow", async (request, response) => {
+  console.log(JSON.stringify(request.body, "", 2));
   let status = "by default";
   let intentName = request.body.queryResult.intent.displayName;
   let response1;
   switch (intentName) {
-    case "Check Order Status":
+    case "check order status":
       console.log(request.body.queryResult);
 
       let email = request.body.queryResult.parameters.billing_email;
-      const res = checkstatus(email);
+      const res = await checkstatus(email);
+
+      response1 = {
+        fulfillment_messages: [
+          {
+            text: {
+              text: [
+                `Your Order#${res.id} with items ${res.shipping_lines[0].meta_data[0].value} of total MYR ${res.total}, Order status: ${res.status}`,
+              ],
+            },
+          },
+          {
+            payload: {
+              richContent: [
+                [
+                  {
+                    type: "chips",
+                    options: [
+                      {
+                        text: "Start Over",
+                      },
+                      {
+                        text: "Thanks - See You! 👋",
+                      },
+                    ],
+                  },
+                ],
+              ],
+            },
+          },
+        ],
+      };
+      response.json(response1);
 
       break;
     default:
@@ -714,44 +746,14 @@ app.post("/faq-dialogflow", (request, response) => {
 
   async function checkstatus(email) {
     try {
-      const response = await WooCommerce.get(`orders/?search=${email}`);
+      const wooresponse = await WooCommerce.get(`orders/?search=${email}`);
       console.log("checking order status...");
 
-      console.log(response.data);
-      return response.data;
+      console.log(wooresponse.data[0]);
+      return wooresponse.data[0];
     } catch (error) {
       console.log(error.response.data);
     }
-
-    response1 = {
-      fulfillment_messages: [
-        {
-          text: {
-            text: [`we got order`],
-          },
-        },
-        {
-          payload: {
-            richContent: [
-              [
-                {
-                  type: "chips",
-                  options: [
-                    {
-                      text: "Yes",
-                    },
-                    {
-                      text: "No",
-                    },
-                  ],
-                },
-              ],
-            ],
-          },
-        },
-      ],
-    };
-    response.json(response1);
   }
 });
 app.listen(port, () => {
