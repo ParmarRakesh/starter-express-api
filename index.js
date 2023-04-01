@@ -10,7 +10,7 @@ const app = express();
 const perfexCntrl = require("./controller/perfexCntrl");
 
 app.use(express.json());
-const port = process.env.port || 3000;
+const port = process.env.port || 5000;
 const WooCommerceRestApi = require("@woocommerce/woocommerce-rest-api").default;
 // import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api"; // Supports ESM
 
@@ -696,7 +696,7 @@ const dialogflowfulfillment = (request, response) => {
 };
 
 app.post("/faq-dialogflow", (request, response) => {
-  console.log(JSON.stringify(request.body, "", 2));
+  //  console.log(JSON.stringify(request.body, "", 2));
   let status = "by default";
   let intentName = request.body.queryResult.intent.displayName;
   let response1;
@@ -715,6 +715,7 @@ app.post("/faq-dialogflow", (request, response) => {
   async function checkstatus(email) {
     try {
       const response = await WooCommerce.get(`orders/?search=${email}`);
+      console.log("checking order status...");
 
       console.log(response.data);
       return response.data;
