@@ -726,7 +726,7 @@ app.post("/faq-dialogflow", (request, response) => {
       fulfillment_messages: [
         {
           text: {
-            text: [`${status}`],
+            text: [`we got order`],
           },
         },
         {
