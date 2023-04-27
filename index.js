@@ -4,6 +4,13 @@ const express = require("express");
 var axios = require("axios");
 const https = require("https");
 const { WebhookClient } = require("dialogflow-fulfillment");
+require("dotenv").config();
+const { Configuration, OpenAIApi } = require("openai");
+
+const configuration = new Configuration({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+const openai = new OpenAIApi(configuration);
 
 const app = express();
 // For parsing application/json
@@ -700,12 +707,13 @@ app.post("/faq-dialogflow", async (request, response) => {
   let status = "by default";
   let intentName = request.body.queryResult.intent.displayName;
   let response1;
+  let res;
   switch (intentName) {
     case "check order status":
       console.log(request.body.queryResult);
 
       let email = request.body.queryResult.parameters.billing_email;
-      const res = await checkstatus(email);
+      res = await checkstatus(email);
 
       response1 = {
         fulfillment_messages: [
@@ -740,7 +748,59 @@ app.post("/faq-dialogflow", async (request, response) => {
       response.json(response1);
 
       break;
+    case "Change order details":
+      let change_info = request.body.queryResult.parameters.change_info;
+      let orderid = request.body.queryResult.parameters.orderid;
+      res = await change_order_details(change_info, orderid);
+
+      response1 = {
+        fulfillment_messages: [
+          {
+            text: {
+              text: [
+                `We have added following note for your change request with your \nOrder#${orderid}\nNote:${change_info}\nOur representative will get back shortly`,
+              ],
+            },
+          },
+          {
+            payload: {
+              richContent: [
+                [
+                  {
+                    type: "chips",
+                    options: [
+                      {
+                        text: "Start Over",
+                      },
+                      {
+                        text: "Thanks - See You! 👋",
+                      },
+                    ],
+                  },
+                ],
+              ],
+            },
+          },
+        ],
+      };
+      response.json(response1);
+    case "Default Fallback Intent":
+      let queryText = request.body.queryResult.queryText;
+      res = await gpt(queryText);
+
+      response1 = {
+        fulfillment_messages: [
+          {
+            text: {
+              text: [`${res}`],
+            },
+          },
+        ],
+      };
+      response.json(response1);
+
     default:
+      console.log("No intent found");
       break;
   }
 
@@ -754,6 +814,30 @@ app.post("/faq-dialogflow", async (request, response) => {
     } catch (error) {
       console.log(error.response.data);
     }
+  }
+
+  async function change_order_details(change_info, orderid) {
+    const data = {
+      note: change_info,
+    };
+    const orderChange = await WooCommerce.post(`orders/${orderid}/notes`, data);
+    console.log(orderChange);
+    return orderChange.data;
+  }
+  async function gpt(query) {
+    const completion = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      messages: [
+        {
+          role: "system",
+          content:
+            "you are helpful, empathic, and friendly gift curator bot who suggest and encourge user to purchase. Its objective is to make the user feel better by feeling heard. With each response, the AI assisstant prompts the user to continue the conversation in a natural way.",
+        },
+        { role: "user", content: `${query}` },
+      ],
+    });
+    console.log(completion.data.choices[0].message);
+    return completion.data.choices[0].message;
   }
 });
 app.listen(port, () => {
