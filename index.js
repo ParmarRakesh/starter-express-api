@@ -23,8 +23,8 @@ const WooCommerceRestApi = require("@woocommerce/woocommerce-rest-api").default;
 
 const WooCommerce = new WooCommerceRestApi({
   url: "https://alittlething.co",
-  consumerKey: "ck_b7626faba3c3a1d5e4f32bca2d94ac1355e32152",
-  consumerSecret: "cs_24c4de9d55cf4f11a4b2e71d54ee92a0a40a171f",
+  consumerKey: process.env.consumerKey,
+  consumerSecret: process.env.consumerSecret,
   version: "wc/v3",
 });
 
