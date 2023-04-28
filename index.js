@@ -837,7 +837,7 @@ app.post("/faq-dialogflow", async (request, response) => {
       ],
     });
     console.log(completion.data.choices[0].message);
-    return completion.data.choices[0].message;
+    return completion.data.choices[0].message.content;
   }
 });
 app.listen(port, () => {
