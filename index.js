@@ -714,6 +714,9 @@ app.post("/faq-dialogflow", async (request, response) => {
 
       let email = request.body.queryResult.parameters.billing_email;
       res = await checkstatus(email);
+      console.log(res.id);
+      console.log(res.shipping_lines[0].meta_data[0].value);
+      console.log(res.total);
 
       response1 = {
         fulfillment_messages: [
